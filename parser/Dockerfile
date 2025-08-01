@@ -24,8 +24,8 @@ RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 
     && CHROMEDRIVER_URL=$(wget -qO- https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$CHROME_VERSION) \
     && wget -q -O /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip" \
     && unzip /tmp/chromedriver.zip -d /tmp/ \
-    && mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/ \
-    && chmod +x /usr/local/bin/chromedriver \
+    && mv /tmp/chromedriver-linux64/chromedriver /bin/ \
+    && chmod +x /bin/chromedriver \
     && rm -rf /tmp/chromedriver* || true
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
