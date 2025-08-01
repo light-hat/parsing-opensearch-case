@@ -8,6 +8,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app/
 
-ENV SELENIUM_REMOTE_URL="http://selenium:4444/wd/hub"
+ENV SELENIUM_REMOTE_URL="http://172.18.0.4:4444/wd/hub"
 
 CMD ["python3", "main.py"]

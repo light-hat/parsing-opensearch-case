@@ -14,7 +14,7 @@ chrome_options.add_argument("--hide-scrollbars")
 chrome_options.add_argument("--disable-notifications")
 chrome_options.add_argument("--start-maximized")
 
-SELENIUM_REMOTE_URL = os.getenv("SELENIUM_REMOTE_URL", "http://selenium:4444/wd/hub")
+SELENIUM_REMOTE_URL = os.getenv("SELENIUM_REMOTE_URL", "http://172.18.0.4:4444/wd/hub")
 
 driver = webdriver.Remote(
     command_executor=SELENIUM_REMOTE_URL,
@@ -22,5 +22,7 @@ driver = webdriver.Remote(
 )
 
 driver.get("https://www.timeweb.cloud")
+
+time.sleep(9999)
 
 driver.quit()

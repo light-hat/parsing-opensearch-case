@@ -23,7 +23,8 @@ services:
       - 9200
       - 9600
     networks:
-      - parser-net
+      parser-net:
+        ipv4_address: 172.18.0.2
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
@@ -33,7 +34,8 @@ services:
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch-node1:9200"]'
     networks:
-      - parser-net
+      parser-net:
+        ipv4_address: 172.18.0.3
     depends_on:
       - opensearch-node1
 
@@ -45,18 +47,20 @@ services:
     expose:
       - 4444
     networks:
-      - parser-net
+      parser-net:
+        ipv4_address: 172.18.0.4
     environment:
       - SE_NODE_MAX_SESSIONS=1
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
       - SE_NODE_SESSION_TIMEOUT=300
-      - SE_NODE_GRID_URL=http://localhost:4444
+      - SE_NODE_GRID_URL=http://172.18.0.4:4444
       - SE_NODE_DETECT_DRIVERS=false
 
   parser:
     build: ./parser/
     networks:
-      - parser-net
+      parser-net:
+        ipv4_address: 172.18.0.5
     depends_on:
       - opensearch-node1
       - selenium
