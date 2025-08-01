@@ -5,6 +5,7 @@
 Задача: Автоматически подбирать продукты в супермаркете под мой режим питания в заданном ценовом диапазоне.
 
 ```bash
+sudo apt update && sudo apt install -y git vim tmux
 git clone https://github.com/light-hat/parsing-opensearch-case
 cd parsing-opensearch-case
 chmod +x provision.sh && sudo ./provision.sh
