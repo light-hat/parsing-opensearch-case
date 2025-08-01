@@ -44,6 +44,8 @@ services:
     shm_size: 2g
     expose:
       - 4444
+    networks:
+      - parser-net
     environment:
       - SE_NODE_MAX_SESSIONS=1
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
