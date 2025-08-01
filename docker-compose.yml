@@ -50,7 +50,7 @@ services:
       - SE_NODE_MAX_SESSIONS=1
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
       - SE_NODE_SESSION_TIMEOUT=300
-      - SE_NODE_GRID_URL=http://selenium:4444
+      - SE_NODE_GRID_URL=http://0.0.0.0:4444
       - SE_NODE_DETECT_DRIVERS=false
 
   parser:
