@@ -62,7 +62,7 @@ services:
       parser-net:
         ipv4_address: 172.18.0.5
     environment:
-      - TEST_URL: "https://timeweb.cloud"
+      - TEST_URL=https://timeweb.cloud
     depends_on:
       - opensearch-node1
       - selenium
