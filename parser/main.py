@@ -13,6 +13,7 @@ chrome_options.add_argument("--disable-webrtc")
 chrome_options.add_argument("--hide-scrollbars")
 chrome_options.add_argument("--disable-notifications")
 chrome_options.add_argument("--start-maximized")
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
 SELENIUM_REMOTE_URL = os.getenv("SELENIUM_REMOTE_URL", "http://172.18.0.4:4444/wd/hub")
 
