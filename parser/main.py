@@ -5,7 +5,6 @@ import subprocess
 import sys
 import time
 
-from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
