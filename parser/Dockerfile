@@ -40,4 +40,4 @@ COPY stealth_crawler.py .
 USER chrome
 WORKDIR /home/chrome
 
-CMD ["xvfb-run", "python", "/stealth_crawler.py", "https://av.ru/"]
+CMD ["xvfb-run", "python", "/stealth_crawler.py"]
