@@ -1,6 +1,7 @@
 import logging
 import os
 import time
+import random
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
