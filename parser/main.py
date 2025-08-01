@@ -26,7 +26,7 @@ logging.basicConfig(
 driver = webdriver.Remote(command_executor=SELENIUM_REMOTE_URL, options=chrome_options)
 
 try:
-    driver.get(start_url)
+    driver.get("https://timeweb.cloud")
 
     # Ожидание загрузки контента
     WebDriverWait(driver, 30).until(
