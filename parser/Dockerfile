@@ -25,7 +25,7 @@ RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 
     && unzip /tmp/chromedriver.zip -d /tmp/ \
     && mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/ \
     && chmod +x /usr/local/bin/chromedriver \
-    && rm -rf /tmp/chromedriver*
+    && rm -rf /tmp/chromedriver* || true
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
