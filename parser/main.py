@@ -33,20 +33,14 @@ driver = webdriver.Remote(command_executor=SELENIUM_REMOTE_URL, options=chrome_o
 try:
     driver.get("https://timeweb.cloud")
 
-    # Ожидание загрузки контента
     WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.TAG_NAME, "body"))
     )
     logging.info("Page loaded successfully")
 
-    # Эмуляция человеческого поведения
-    human_like_interaction(driver)
-
-    # Получение информации о странице
     current_url = driver.current_url
     page_source = driver.page_source
 
-    # Получение HTTP-статуса через JavaScript
     status_code = (
         driver.execute_script(
             "return window.performance.getEntries()[0].responseStatus || 200"
@@ -54,13 +48,10 @@ try:
         or 200
     )
 
-    # Получение Content-Type
     content_type = driver.execute_script("return document.contentType || 'text/html'")
 
-    # Извлечение первых 30 символов контента
-    content_sample = page_source[:30].replace("\n", " ").replace("\r", " ")
+    content_sample = page_source.replace("\n", " ").replace("\r", " ")
 
-    # Вывод результатов
     print(f"\n[+] Final URL: {current_url}")
     print(f"    Status: {status_code}")
     print(f"    Content-Type: {content_type}")
@@ -68,7 +59,7 @@ try:
 
 except Exception as e:
     logging.error(f"Error during crawling: {str(e)}")
-    # Попытка сделать скриншот для отладки
+
     try:
         driver.save_screenshot("error_screenshot.png")
         logging.info("Saved screenshot to error_screenshot.png")
