@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     unzip \
     xvfb \
+    xauth \
     fonts-ipafont-gothic \
     fonts-wqy-zenhei \
     fonts-thai-tlwg \
@@ -39,5 +40,9 @@ COPY stealth_crawler.py .
 
 USER chrome
 WORKDIR /home/chrome
+
+RUN google-chrome --version \
+    && chromedriver --version \
+    && echo "Chrome and ChromeDriver versions verified"
 
 CMD ["xvfb-run", "python", "/stealth_crawler.py"]
