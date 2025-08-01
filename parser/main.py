@@ -23,7 +23,7 @@ chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
 SELENIUM_REMOTE_URL = os.getenv("SELENIUM_REMOTE_URL", "http://172.18.0.4:4444/wd/hub")
-TEST_GET_URL = os.getenv("TEST_URL")
+TEST_GET_URL = os.getenv("TEST_URL", "https://timeweb.cloud")
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
