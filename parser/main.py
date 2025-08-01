@@ -23,51 +23,62 @@ chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
 SELENIUM_REMOTE_URL = os.getenv("SELENIUM_REMOTE_URL", "http://172.18.0.4:4444/wd/hub")
+TEST_GET_URL = os.getenv("TEST_URL")
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-driver = webdriver.Remote(command_executor=SELENIUM_REMOTE_URL, options=chrome_options)
 
-try:
-    driver.get("https://timeweb.cloud")
+def test_selenium_get():
 
-    WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located((By.TAG_NAME, "body"))
+    driver = webdriver.Remote(
+        command_executor=SELENIUM_REMOTE_URL, options=chrome_options
     )
-    logging.info("Page loaded successfully")
-
-    current_url = driver.current_url
-    page_source = driver.page_source
-
-    status_code = (
-        driver.execute_script(
-            "return window.performance.getEntries()[0].responseStatus || 200"
-        )
-        or 200
-    )
-
-    content_type = driver.execute_script("return document.contentType || 'text/html'")
-
-    content_sample = page_source.replace("\n", " ").replace("\r", " ")
-
-    print(f"\n[+] Final URL: {current_url}")
-    print(f"    Status: {status_code}")
-    print(f"    Content-Type: {content_type}")
-    print(f"    Content Sample: {content_sample}")
-
-except Exception as e:
-    logging.error(f"Error during crawling: {str(e)}")
 
     try:
-        driver.save_screenshot("error_screenshot.png")
-        logging.info("Saved screenshot to error_screenshot.png")
-    except:
-        logging.error("Failed to save screenshot")
+        driver.get(TEST_GET_URL)
 
-finally:
-    # Случайная задержка перед закрытием
-    time.sleep(random.uniform(2.0, 5.0))
-    driver.quit()
-    logging.info("WebDriver closed")
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.TAG_NAME, "body"))
+        )
+        logging.info("Page loaded successfully")
+
+        current_url = driver.current_url
+        page_source = driver.page_source
+
+        status_code = (
+            driver.execute_script(
+                "return window.performance.getEntries()[0].responseStatus || 200"
+            )
+            or 200
+        )
+
+        content_type = driver.execute_script(
+            "return document.contentType || 'text/html'"
+        )
+
+        content_sample = page_source.replace("\n", " ").replace("\r", " ")
+
+        print(f"\n[+] Final URL: {current_url}")
+        print(f"    Status: {status_code}")
+        print(f"    Content-Type: {content_type}")
+        print(f"    Content Sample: {content_sample}")
+
+    except Exception as e:
+        logging.error(f"Error during crawling: {str(e)}")
+
+        try:
+            driver.save_screenshot("error_screenshot.png")
+            logging.info("Saved screenshot to error_screenshot.png")
+        except:
+            logging.error("Failed to save screenshot")
+
+    finally:
+        time.sleep(random.uniform(2.0, 5.0))
+        driver.quit()
+        logging.info("WebDriver closed")
+
+
+if __name__ == "__main__":
+    test_selenium_get()
