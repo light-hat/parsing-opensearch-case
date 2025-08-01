@@ -37,12 +37,27 @@ services:
     depends_on:
       - opensearch-node1
 
+  selenium:
+    image: selenium/standalone-chromium:latest
+    container_name: selenium-container
+    restart: unless-stopped
+    shm_size: 2g
+    expose:
+      - 4444
+    environment:
+      - SE_NODE_MAX_SESSIONS=1
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_NODE_GRID_URL=http://selenium:4444
+      - SE_NODE_DETECT_DRIVERS=false
+
   parser:
     build: ./parser/
     networks:
       - parser-net
     depends_on:
       - opensearch-node1
+      - selenium
 
 volumes:
   opensearch-data1:
