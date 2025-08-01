@@ -1,9 +1,10 @@
-import time
+import logging
 import os
+import time
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
@@ -17,13 +18,59 @@ chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
 SELENIUM_REMOTE_URL = os.getenv("SELENIUM_REMOTE_URL", "http://172.18.0.4:4444/wd/hub")
 
-driver = webdriver.Remote(
-    command_executor=SELENIUM_REMOTE_URL,
-    options=chrome_options
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-driver.get("https://www.timeweb.cloud")
+driver = webdriver.Remote(command_executor=SELENIUM_REMOTE_URL, options=chrome_options)
 
-time.sleep(9999)
+try:
+    driver.get(start_url)
 
-driver.quit()
+    # Ожидание загрузки контента
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.TAG_NAME, "body"))
+    )
+    logging.info("Page loaded successfully")
+
+    # Эмуляция человеческого поведения
+    human_like_interaction(driver)
+
+    # Получение информации о странице
+    current_url = driver.current_url
+    page_source = driver.page_source
+
+    # Получение HTTP-статуса через JavaScript
+    status_code = (
+        driver.execute_script(
+            "return window.performance.getEntries()[0].responseStatus || 200"
+        )
+        or 200
+    )
+
+    # Получение Content-Type
+    content_type = driver.execute_script("return document.contentType || 'text/html'")
+
+    # Извлечение первых 30 символов контента
+    content_sample = page_source[:30].replace("\n", " ").replace("\r", " ")
+
+    # Вывод результатов
+    print(f"\n[+] Final URL: {current_url}")
+    print(f"    Status: {status_code}")
+    print(f"    Content-Type: {content_type}")
+    print(f"    Content Sample: {content_sample}")
+
+except Exception as e:
+    logging.error(f"Error during crawling: {str(e)}")
+    # Попытка сделать скриншот для отладки
+    try:
+        driver.save_screenshot("error_screenshot.png")
+        logging.info("Saved screenshot to error_screenshot.png")
+    except:
+        logging.error("Failed to save screenshot")
+
+finally:
+    # Случайная задержка перед закрытием
+    time.sleep(random.uniform(2.0, 5.0))
+    driver.quit()
+    logging.info("WebDriver closed")
